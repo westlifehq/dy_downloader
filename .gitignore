@@ -1,0 +1,8 @@
+node_modules/
+.DS_Store
+*.log
+config.json
+douyin-downloader.exe
+*.apk
+*.zip
+*.tar.gz

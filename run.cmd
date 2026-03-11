@@ -1,0 +1,2 @@
+.\douyin-downloader.exe
+pause
