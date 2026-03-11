@@ -19,7 +19,8 @@
 
 ## 📸 功能演示
 
-*（建议在这里贴一张你运行软件后的超酷截图，替代此文字）*
+<img width="750" height="381" alt="image" src="https://github.com/user-attachments/assets/b8a812fd-93de-45f4-b8cd-f5e89d62f766" />
+
 
 ---
 
