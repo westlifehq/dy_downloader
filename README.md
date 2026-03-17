@@ -20,7 +20,7 @@
 
 ## 📸 功能演示
 
-<img width="750" height="381" alt="image" src="https://github.com/user-attachments/assets/b8a812fd-93de-45f4-b8cd-f5e89d62f766" />
+<img width="715" height="267" alt="image" src="https://github.com/user-attachments/assets/d88a4760-5625-45e0-aad0-2799da7286db" />
 
 
 ---
