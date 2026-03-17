@@ -1,18 +1,19 @@
-# Douyin Downloader (抖音无水印视频/图文批量下载器)
+# Video Downloader (全平台视频无水印下载器)
 
-> 🚀 一个基于 Node.js 构建的现代化、极简、高颜值的抖音内容解析及下载工具。
+> 🚀 一个基于 Node.js 构建的现代化、极简、高颜值的全平台视频内容解析及下载工具。
 
 ![UI Preview](https://img.shields.io/badge/Status-Active-success)
+![Version](https://img.shields.io/badge/Version-1.1.0-blue)
 ![Nodejs](https://img.shields.io/badge/Node.js-18.x-blue)
 ![License](https://img.shields.io/badge/License-MIT-blue)
 
 ## 🌟 核心特性
 
-- **多模式解析**：完美支持普通的抖音分享短链接，自动识别并跟随重定向。
+- **跨平台解析**：支持 **抖音 (Douyin)** 和 **小红书 (Xiaohongshu)** 视频内容解析，自动识别平台并切换引擎。
 - **无水印原画质**：直取底层接口，下载官方无压缩、无水印的 1080P/720P 原视频。
-- **图集/图文克星**：全新重构，完美支持直接解析并**批量下载**抖音图文帖子中的所有超清原图（自动打包成专属文件夹）。
-- **极速批量处理**：支持在输入框同时粘贴几十条链接（甚至夹杂文字也无所谓，自动剥离），多线程并行解析与下载。
-- **高级定制 UI**：采用现代化的暗色毛玻璃（Glassmorphism）设计语言，原生级交互体验，支持下载进度实时可视化。
+- **自动短链追踪**：完美支持分享短链接，自动识别并跟随 302 重定向。
+- **极速批量处理**：支持在输入框同时粘贴多条链接，自动剥离文字，多线程并行解析与下载。
+- **高级定制 UI v2**：采用全新的 **Premium Minimalist (紫/靛蓝)** 暗色毛玻璃设计，视觉更高级。
 - **跨平台一键部署**：无论是 Mac、Windows 还是 Linux，仅需 Node 环境即可轻松跑满带宽。
 
 ---
