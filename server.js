@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const { exec } = require('child_process');
 const { v4: uuidv4 } = require('uuid');
 const douyin = require('./lib/douyin');
 const xhs = require('./lib/xhs');
@@ -258,6 +259,67 @@ app.get('/api/history', (req, res) => {
     // 按时间倒序
     history.sort((a, b) => b.startTime - a.startTime);
     res.json(history);
+});
+
+/**
+ * POST /api/history/open — 打开本地文件
+ */
+app.post('/api/history/open', (req, res) => {
+    const { filePath } = req.body;
+    if (!filePath) return res.status(400).json({ error: '未提供文件路径' });
+
+    if (!fs.existsSync(filePath)) {
+        return res.status(404).json({ error: '文件不存在' });
+    }
+
+    const platform = process.platform;
+    let command;
+
+    if (platform === 'win32') {
+        // Windows: 使用 start "" "path" 以防路径包含并列双引号
+        command = `start "" "${filePath}"`;
+    } else if (platform === 'darwin') {
+        // macOS: 使用 open
+        command = `open "${filePath}"`;
+    } else {
+        // Linux: 使用 xdg-open
+        command = `xdg-open "${filePath}"`;
+    }
+
+    exec(command, (err) => {
+        if (err) {
+            console.error(`[打开文件] 失败: ${err.message}`);
+            return res.status(500).json({ error: '文件夹打开失败' });
+        }
+        res.json({ success: true });
+    });
+});
+
+/**
+ * POST /api/history/delete — 删除本地文件
+ */
+app.post('/api/history/delete', (req, res) => {
+    const { filePath } = req.body;
+    if (!filePath) return res.status(400).json({ error: '未提供文件路径' });
+
+    try {
+        if (fs.existsSync(filePath)) {
+            // 如果是文件夹（图集），递归删除
+            const stats = fs.statSync(filePath);
+            if (stats.isDirectory()) {
+                fs.rmSync(filePath, { recursive: true, force: true });
+            } else {
+                fs.unlinkSync(filePath);
+            }
+            console.log(`[删除文件] 成功: ${filePath}`);
+            res.json({ success: true });
+        } else {
+            res.status(404).json({ error: '文件已不存在' });
+        }
+    } catch (err) {
+        console.error(`[删除文件] 失败: ${err.message}`);
+        res.status(500).json({ error: `删除失败: ${err.message}` });
+    }
 });
 
 // 启动服务器

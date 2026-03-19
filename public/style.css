@@ -575,6 +575,52 @@ body {
   font-family: var(--font-mono);
   color: var(--c-text-muted);
   flex-shrink: 0;
+  margin-right: 8px;
+}
+
+.history-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.history-item:hover .history-actions {
+  opacity: 1;
+}
+
+.action-btn {
+  background: transparent;
+  border: none;
+  color: var(--c-text-muted);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.action-btn:hover {
+  background: rgba(255,255,255,0.1);
+  color: var(--c-text);
+}
+
+.action-btn--delete:hover {
+  color: var(--c-error);
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.action-btn--open:hover {
+  color: var(--c-accent);
+  background: rgba(6, 182, 212, 0.1);
+}
+
+.action-btn svg {
+  width: 14px;
+  height: 14px;
 }
 
 /* ── 设置区域 ── */

@@ -15,5 +15,8 @@
   "bin": "server.js",
   "pkg": {
     "assets": "public/**/*"
+  },
+  "devDependencies": {
+    "pkg": "^5.8.1"
   }
 }

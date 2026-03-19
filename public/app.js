@@ -386,7 +386,7 @@ function loadHistory() {
     }
 
     section.style.display = 'block';
-    list.innerHTML = history.map((item) => {
+    list.innerHTML = history.map((item, index) => {
         return `
       <div class="history-item">
         <svg class="history-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -395,9 +395,56 @@ function loadHistory() {
         </svg>
         <span class="history-name" title="${item.filePath || ''}">${item.title || item.fileName}</span>
         <span class="history-size">${formatBytes(item.fileSize)}</span>
+        <div class="history-actions">
+          <button class="action-btn action-btn--open" onclick="openHistoryFile('${(item.filePath || '').replace(/\\/g, '\\\\')}')" title="打开文件所在位置或播放">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            </svg>
+          </button>
+          <button class="action-btn action-btn--delete" onclick="deleteHistoryFile('${(item.filePath || '').replace(/\\/g, '\\\\')}', ${index})" title="从磁盘删除文件">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+          </button>
+        </div>
       </div>
     `;
     }).join('');
+}
+
+async function openHistoryFile(filePath) {
+    if (!filePath) return;
+    try {
+        await api('POST', '/api/history/open', { filePath });
+    } catch (err) {
+        if (err.message.includes('不存在')) {
+            showToast('文件已不存在，可能已被手动删除', 'error');
+        } else {
+            showToast('无法打开文件: ' + err.message, 'error');
+        }
+    }
+}
+
+async function deleteHistoryFile(filePath, index) {
+    if (!confirm('确定要从本地磁盘删除这个文件吗？此操作不可撤销。')) return;
+    
+    try {
+        await api('POST', '/api/history/delete', { filePath });
+        showToast('文件已删除', 'success');
+    } catch (err) {
+        if (err.message.includes('不存在')) {
+            showToast('文件已经不存在了', 'info');
+        } else {
+            showToast('删除失败: ' + err.message, 'error');
+        }
+    } finally {
+        // 无论物理删除是否成功（只要接口跑了），都从历史记录中清理
+        let history = JSON.parse(localStorage.getItem('dy_history') || '[]');
+        history.splice(index, 1);
+        localStorage.setItem('dy_history', JSON.stringify(history));
+        loadHistory();
+    }
 }
 
 function clearHistory() {
